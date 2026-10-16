@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block title %}Favorites | ModDrive{% endblock %}
-{% block content %}
-<section class="page-hero compact"><div class="container"><p class="eyebrow">YOUR COLLECTION</p><h1>Favorites</h1><p>Keep the vehicles you are considering in one place.</p></div></section>
-<section class="section container"><div class="card-grid">
-    {% for favorite in favorites %}{% include 'fleet/_vehicle_card.html' with vehicle=favorite.vehicle %}
-    {% empty %}<div class="empty-state"><h3>No Favorites yet</h3><p>Save vehicles from the fleet or vehicle details page.</p><a class="button" href="{% url 'fleet:list' %}">Browse fleet</a></div>{% endfor %}
-</div></section>
-{% endblock %}

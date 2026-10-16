@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block title %}Driving Routes | ModDrive{% endblock %}
-{% block content %}
-<section class="page-hero compact"><div class="container"><p class="eyebrow">CURATED EXPERIENCES</p><h1>Roads worth remembering</h1><p>Choose an optional route designed to complement the vehicle and the Texas landscape.</p></div></section>
-<section class="section container"><div class="route-grid">
-    {% for route in routes %}<article class="route-card"><div class="card-image">{% if route.image_url %}<img src="{{ route.image_url }}" alt="{{ route.name }}">{% endif %}</div><div class="card-body"><p class="card-meta">{{ route.location }}</p><h2>{{ route.name }}</h2><p>{{ route.description }}</p><div class="route-facts"><span>{{ route.distance_miles }} miles</span><span>{{ route.estimated_hours }} hours</span><span>+${{ route.additional_price }}</span></div><a class="text-link" href="{% url 'fleet:list' %}">Choose a vehicle →</a></div></article>
-    {% empty %}<div class="empty-state"><h3>No routes yet</h3><p>Run the sample data command to add routes.</p></div>{% endfor %}
-</div></section>
-{% endblock %}

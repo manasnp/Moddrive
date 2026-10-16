@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block title %}My Bookings | ModDrive{% endblock %}
-{% block content %}
-<section class="page-hero compact"><div class="container"><p class="eyebrow">YOUR ACCOUNT</p><h1>My Bookings</h1><p>Track every request and its current staff-review status.</p></div></section>
-<section class="section container"><div class="booking-list">
-{% for booking in bookings %}<article class="booking-row"><div><p class="card-meta">REQUEST #{{ booking.pk }} · {{ booking.created_at|date:'M j, Y' }}</p><h2>{{ booking.vehicle.name }}</h2><p>{{ booking.start_date }} – {{ booking.end_date }}{% if booking.route %} · {{ booking.route.name }}{% endif %}</p></div><div><span class="status {{ booking.status }}">{{ booking.get_status_display }}</span><strong>${{ booking.estimated_price }}</strong>{% if booking.status == 'pending' %}<form method="post" action="{% url 'bookings:cancel' booking.pk %}">{% csrf_token %}<button class="text-button" type="submit">Cancel request</button></form>{% endif %}</div></article>
-{% empty %}<div class="empty-state"><h3>You have no booking requests</h3><p>Choose a vehicle to begin.</p><a class="button" href="{% url 'fleet:list' %}">Browse fleet</a></div>{% endfor %}
-</div></section>
-{% endblock %}
