@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Request {{ vehicle.name }} | ModDrive{% endblock %}
+{% block content %}
+<section class="section container booking-layout">
+    <div><p class="eyebrow">BOOK YOUR RIDE</p><h1>{{ vehicle.name }}</h1><div class="booking-vehicle">{% if vehicle.image_url %}<img src="{{ vehicle.image_url }}" alt="{{ vehicle.name }}">{% endif %}<div><strong>${{ vehicle.daily_price }} per day</strong><p>{{ vehicle.get_transmission_display }} · {{ vehicle.get_vehicle_type_display }}</p></div></div><h3>Before submitting</h3><ul class="plain-list"><li>Your request remains pending until staff review.</li><li>The displayed total is an estimate.</li><li>Payment is not collected in version 1.</li></ul></div>
+    <div class="form-card wide"><h2>Request details</h2><form method="post" class="stacked-form">{% csrf_token %}{% for field in form %}<label>{{ field.label }}{{ field }}{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</label>{% endfor %}{% for error in form.non_field_errors %}<div class="error">{{ error }}</div>{% endfor %}<button class="button full" type="submit">Submit booking request</button></form></div>
+</section>
+{% endblock %}
