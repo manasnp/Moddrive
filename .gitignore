@@ -5,3 +5,4 @@ __pycache__/
 .env
 media/
 
+template_v1.sqlite3
