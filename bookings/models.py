@@ -51,7 +51,7 @@ class Booking(models.Model):
     )
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ("-created_at",)
 
     def clean(self):
         if self.start_date and self.end_date and self.end_date < self.start_date:
