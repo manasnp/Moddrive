@@ -102,9 +102,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'accounts.validators.ModDrivePasswordValidator',
+    },
 ]
 
-
+AUTHENTICATION_BACKENDS = [
+    "accounts.backends.EmailBackend",
+]
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
