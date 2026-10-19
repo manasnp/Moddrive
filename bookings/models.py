@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Booking(models.Model):
-    STATUS_CHOICES = [  # noqa: RUF012
+    STATUS_CHOICES = [  
         ("pending", "Pending"),
         ("approved", "Approved"),
         ("denied", "Denied"),
@@ -22,6 +22,14 @@ class Booking(models.Model):
         on_delete=models.PROTECT,
         related_name="bookings",
     )
+    
+    route = models.ForeignKey(
+    "fleet.DrivingRoute",
+    on_delete=models.SET_NULL,
+    related_name="bookings",
+    null=True,
+    blank=True,
+)
 
     start_date = models.DateField()
     end_date = models.DateField()
