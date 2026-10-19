@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 
+from accounts.views import booking_staff_required
 from bookings.forms import BookingForm, BookingDecisionForm
 from fleet.models import Vehicle
 from .models import Booking
@@ -60,15 +61,13 @@ def cancel_booking(request, booking_id):
 
     return redirect("bookings:my_bookings")
 
-def is_booking_staff(user):
-    return (user.is_authenticated and (user.is_staff or user.is_superuser))
-
-@user_passes_test(is_booking_staff)
+@booking_staff_required
 def staff_dashboard(request):
     bookings = Booking.objects.select_related("customer", "vehicle", "route").order_by("-created_at")
 
     return render(request, "bookings/staff_dashboard.html", {"bookings": bookings, "pending_count": bookings.filter(status="pending").count(), "approved_count": bookings.filter(status="approved").count(), "denied_count": bookings.filter(status="denied").count()})
 
+@booking_staff_required
 def review_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id)
 
@@ -85,6 +84,4 @@ def review_booking(request, booking_id):
     else:
         form = BookingDecisionForm(instance=booking)
 
-    return render(request, "bookings/review_booking.html", {"form": form, "booking": booking})    
-
-    
+    return render(request, "bookings/review_booking.html", {"form": form, "booking": booking})
