@@ -11,14 +11,14 @@ class VehicleFilterForm(forms.Form):
     vehicle_type = forms.ChoiceField(
         required=False,
         label="Vehicle Type",
-        choices=[("", "All types")] + list(Vehicle.VEHICLE_TYPE_CHOICES),
+        choices=[("", "All types")] + list(Vehicle.VEHICLE_TYPES),
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     transmission = forms.ChoiceField(
         required=False,
         label="Transmission",
-        choices=[("", "All transmissions")] + list(Vehicle.TRANSMISSION_CHOICES),
+        choices=[("", "All transmissions")] + list(Vehicle.TRANSMISSION_TYPES),
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
