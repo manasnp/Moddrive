@@ -33,8 +33,8 @@ def create_booking(request, vehicle_id):
 
                 return redirect("bookings:confirmation", booking_id=booking.id)
          
-        else:
-            form = BookingForm(vehicle=vehicle)
+    else:
+        form = BookingForm(vehicle=vehicle)
 
     return render(request, "bookings/booking_form.html", {"form": form, "vehicle": vehicle})
 
@@ -63,14 +63,26 @@ def cancel_booking(request, booking_id):
 
 @booking_staff_required
 def staff_dashboard(request):
-    bookings = Booking.objects.select_related("customer", "vehicle", "route").order_by("-created_at")
+    bookings = Booking.objects.select_related(
+        "customer", "vehicle", "route"
+    ).order_by("-created_at")
 
-    return render(request, "bookings/staff_dashboard.html", {"bookings": bookings, "pending_count": bookings.filter(status="pending").count(), "approved_count": bookings.filter(status="approved").count(), "denied_count": bookings.filter(status="denied").count()})
+    pending_bookings = bookings.filter(status="pending")
 
+    return render(request, "bookings/staff_dashboard.html", {
+        "bookings": bookings,
+        "pending_bookings": pending_bookings,
+        "pending_count": pending_bookings.count(),
+        "approved_count": bookings.filter(status="approved").count(),
+        "denied_count": bookings.filter(status="denied").count(),
+    })
 @booking_staff_required
 def review_booking(request, booking_id):
-    booking = get_object_or_404(Booking, id=booking_id)
-
+    booking = get_object_or_404(
+        Booking,
+        id=booking_id,
+        status__in=["pending", "approved", "denied"]
+    )
     if request.method == "POST":
         form = BookingDecisionForm(request.POST, instance=booking)
         if form.is_valid():
