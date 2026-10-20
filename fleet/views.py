@@ -7,7 +7,18 @@ from django.views.decorators.http import require_POST
 from .forms import VehicleFilterForm
 from .models import Vehicle, DrivingRoute, Favorite
 
+def home(request):
+    featured_vehicles = Vehicle.objects.filter(
+        is_available=True
+    )[:4]
 
+    return render(
+        request,
+        "home.html",
+        {
+            "featured_vehicles": featured_vehicles,
+        },
+    )
 def fleet_list(request):
     vehicles = Vehicle.objects.filter(is_available=True)
 

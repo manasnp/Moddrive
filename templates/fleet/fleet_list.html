@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}
+Fleet | ModDrive
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <p class="section-label">
+            ModDrive collection
+        </p>
+
+        <h1>Explore the Fleet</h1>
+
+        <p>
+            Browse our collection of JDM, classic, and
+            off-road vehicles.
+        </p>
+    </div>
+</section>
+
+<section class="fleet-section">
+    <div class="container">
+        <form class="filter-form" method="get" action="{% url 'fleet:fleet_list' %}">
+            <div class="filter-field">
+                {{ form.search.label_tag }}
+                {{ form.search }}
+            </div>
+
+            <div class="filter-field">
+                {{ form.vehicle_type.label_tag }}
+                {{ form.vehicle_type }}
+            </div>
+
+            <div class="filter-field">
+                {{ form.transmission.label_tag }}
+                {{ form.transmission }}
+            </div>
+
+            <div class="filter-field">
+                {{ form.maximum_price.label_tag }}
+                {{ form.maximum_price }}
+            </div>
+
+            <button class="button" type="submit">
+                Apply Filters
+            </button>
+
+            <a class="clear-filter" href="{% url 'fleet:fleet_list' %}">
+                Clear
+            </a>
+        </form>
+
+        <div class="fleet-results">
+            <p>
+                {{ vehicles|length }}
+                vehicle{{ vehicles|length|pluralize }}
+                found
+            </p>
+        </div>
+
+        <div class="vehicle-grid">
+            {% for vehicle in vehicles %}
+            <article class="vehicle-card">
+                <a class="vehicle-image" href="{% url 'fleet:vehicle_detail' vehicle.id %}">
+                    {% if vehicle.image_url %}
+                    <img src="{{ vehicle.image_url }}" alt="{{ vehicle }}">
+                    {% else %}
+                    <div class="image-placeholder">
+                        No image available
+                    </div>
+                    {% endif %}
+
+                    {% if vehicle.id in favorite_vehicle_ids %}
+                    <span class="favorite-badge">
+                        Saved
+                    </span>
+                    {% endif %}
+                </a>
+
+                <div class="vehicle-card-content">
+                    <p class="vehicle-type">
+                        {{ vehicle.get_vehicle_type_display }}
+                    </p>
+
+                    <h2>
+                        <a href="{% url 'fleet:vehicle_detail' vehicle.id %}">
+                            {{ vehicle.model_year }}
+                            {{ vehicle.manufacturer }}
+                            {{ vehicle.name }}
+                        </a>
+                    </h2>
+
+                    <p>
+                        {{ vehicle.transmission|title }}
+                        transmission
+                    </p>
+
+                    <p>
+                        {{ vehicle.description|truncatewords:18 }}
+                    </p>
+
+                    <div class="vehicle-card-footer">
+                        <strong>
+                            ${{ vehicle.daily_price }}
+                            <small>/ day</small>
+                        </strong>
+
+                        <a class="button" href="{% url 'fleet:vehicle_detail' vehicle.id %}">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                <h2>No vehicles found</h2>
+
+                <p>
+                    No vehicles match your search criteria.
+                </p>
+
+                <a class="button" href="{% url 'fleet:fleet_list' %}">
+                    Clear Filters
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

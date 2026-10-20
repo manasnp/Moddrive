@@ -1,10 +1,121 @@
 {% extends "base.html" %}
 
-{% block title %}Home | ModDrive{% endblock %}
+{% block title %}
+Home | ModDrive
+{% endblock %}
 
 {% block content %}
-<section>
-    <h1>ModDrive</h1>
-    <p>Write your homepage content here.</p>
+<section class="home-hero">
+    <div class="home-hero-content">
+        <p class="hero-label">
+            Curated modified-car rentals
+        </p>
+
+        <h1>
+            Drive Beyond Ordinary.
+        </h1>
+
+        <p class="hero-description">
+            Experience carefully selected JDM, classic,
+            and off-road vehicles built for memorable
+            drives.
+        </p>
+
+        <a class="button" href="{% url 'fleet:fleet_list' %}">
+            Explore the Fleet
+        </a>
+    </div>
+</section>
+
+<section class="featured-section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="section-label">
+                    Featured vehicles
+                </p>
+
+                <h2>
+                    Choose Your Next Drive
+                </h2>
+            </div>
+
+            <a href="{% url 'fleet:fleet_list' %}">
+                View all vehicles
+            </a>
+        </div>
+
+        <div class="vehicle-grid">
+            {% for vehicle in featured_vehicles %}
+            <article class="vehicle-card">
+                <a class="vehicle-image" href="{% url 'fleet:vehicle_detail' vehicle.id %}">
+                    {% if vehicle.image_url %}
+                    <img src="{{ vehicle.image_url }}" alt="{{ vehicle }}">
+                    {% else %}
+                    <div class="image-placeholder">
+                        No image available
+                    </div>
+                    {% endif %}
+                </a>
+
+                <div class="vehicle-card-content">
+                    <p class="vehicle-type">
+                        {{ vehicle.get_vehicle_type_display }}
+                    </p>
+
+                    <h3>
+                        <a href="{% url 'fleet:vehicle_detail' vehicle.id %}">
+                            {{ vehicle.model_year }}
+                            {{ vehicle.manufacturer }}
+                            {{ vehicle.name }}
+                        </a>
+                    </h3>
+
+                    <p>
+                        {{ vehicle.transmission|title }}
+                        transmission
+                    </p>
+
+                    <div class="vehicle-card-footer">
+                        <strong>
+                            ${{ vehicle.daily_price }}
+                            <small>/ day</small>
+                        </strong>
+
+                        <a class="button" href="{% url 'fleet:vehicle_detail' vehicle.id %}">
+                            View
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                <h3>No featured vehicles yet</h3>
+
+                <p>
+                    Add available vehicles through
+                    Django Admin.
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="home-callout">
+    <div class="container">
+        <h2>
+            More than a rental.
+        </h2>
+
+        <p>
+            Select a compatible driving route and create
+            a complete ModDrive experience.
+        </p>
+
+        <a class="button" href="{% url 'fleet:route_list' %}">
+            Explore Routes
+        </a>
+    </div>
 </section>
 {% endblock %}

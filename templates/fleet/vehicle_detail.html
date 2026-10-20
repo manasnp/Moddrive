@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ vehicle }} | ModDrive
+{% endblock %}
+
+{% block content %}
+    <section class="vehicle-detail-section">
+        <div class="container">
+            <p class="detail-back-link">
+                <a href="{% url 'fleet:fleet_list' %}">
+                    &larr; Back to Fleet
+                </a>
+            </p>
+
+            <div class="vehicle-detail-layout">
+                <div class="vehicle-detail-main">
+                    <div class="vehicle-detail-image">
+                        {% if vehicle.image_url %}
+                            <img
+                                src="{{ vehicle.image_url }}"
+                                alt="{{ vehicle }}"
+                            >
+                        {% else %}
+                            <div class="image-placeholder">
+                                No image available
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="vehicle-detail-information">
+                        <p class="vehicle-type">
+                            {{ vehicle.get_vehicle_type_display }}
+                        </p>
+
+                        <h1>
+                            {{ vehicle.model_year }}
+                            {{ vehicle.manufacturer }}
+                            {{ vehicle.name }}
+                        </h1>
+
+                        <div class="vehicle-facts">
+                            <span>
+                                {{ vehicle.get_transmission_display }}
+                            </span>
+
+                            <span>
+                                {{ vehicle.get_vehicle_type_display }}
+                            </span>
+
+                            {% if vehicle.is_available %}
+                                <span class="available-status">
+                                    Available
+                                </span>
+                            {% else %}
+                                <span class="unavailable-status">
+                                    Unavailable
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <section class="detail-content">
+                            <h2>About this vehicle</h2>
+
+                            <p>
+                                {{ vehicle.description }}
+                            </p>
+                        </section>
+
+                        <section class="detail-content">
+                            <h2>Modifications</h2>
+
+                            {% if vehicle.modifications %}
+                                <p>
+                                    {{ vehicle.modifications|linebreaksbr }}
+                                </p>
+                            {% else %}
+                                <p>
+                                    Modification details have not
+                                    been added yet.
+                                </p>
+                            {% endif %}
+                        </section>
+
+                        <section class="detail-content">
+                            <h2>Compatible Routes</h2>
+
+                            {% if vehicle.routes.all %}
+                                <ul class="compatible-route-list">
+                                    {% for route in vehicle.routes.all %}
+                                        <li>
+                                            <strong>
+                                                {{ route.name }}
+                                            </strong>
+
+                                            <span>
+                                                {{ route.location }} —
+                                                {{ route.distance_miles }}
+                                                miles
+                                            </span>
+                                        </li>
+                                    {% empty %}
+                                        <li>
+                                            No routes are currently
+                                            assigned to this vehicle.
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </section>
+                    </div>
+                </div>
+
+                <aside class="vehicle-booking-card">
+                    <p class="booking-price">
+                        ${{ vehicle.daily_price }}
+                        <small>/ day</small>
+                    </p>
+
+                    {% if vehicle.is_available %}
+                        <p>
+                            This vehicle is currently available
+                            for booking requests.
+                        </p>
+
+                        {% if user.is_authenticated %}
+                            <a
+                                class="button booking-button"
+                                href="{% url 'bookings:create_booking' vehicle.id %}"
+                            >
+                                Book This Vehicle
+                            </a>
+                        {% else %}
+                            <a
+                                class="button booking-button"
+                                href="{% url 'accounts:login' %}"
+                            >
+                                Log In to Book
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <p class="unavailable-message">
+                            This vehicle is currently unavailable.
+                        </p>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <form
+                            class="favorite-form"
+                            method="post"
+                            action="{% url 'fleet:toggle_favorite' vehicle.id %}"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                class="favorite-button"
+                                type="submit"
+                            >
+                                {% if is_favorite %}
+                                    Remove from Favorites
+                                {% else %}
+                                    Add to Favorites
+                                {% endif %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </aside>
+            </div>
+        </div>
+    </section>
+{% endblock %}
