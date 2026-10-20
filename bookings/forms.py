@@ -34,7 +34,7 @@ class BookingForm(forms.ModelForm):
         self.vehicle = vehicle
 
         if vehicle:
-            self.fields["route"].queryset = DrivingRoute.objects.filter(vehicle=vehicle)
+            self.fields["route"].queryset = DrivingRoute.objects.filter(vehicles=vehicle).distinct()
         else:
             self.fields["route"].queryset = DrivingRoute.objects.none()
 

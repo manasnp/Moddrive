@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Account | ModDrive
+{% endblock %}
+
+{% block content %}
+<section class="register-page">
+    <div class="register-layout">
+        <div class="register-introduction">
+            <div class="register-introduction-content">
+                <p>Join ModDrive</p>
+
+                <h1>Start your next adventure.</h1>
+
+                <span>
+                    Create an account to save favorite vehicles,
+                    reserve rentals, and manage your bookings.
+                </span>
+            </div>
+        </div>
+
+        <div class="register-form-panel">
+            <form method="post" class="register-form">
+                {% csrf_token %}
+
+                <div class="register-heading">
+                    <p class="page-label">Create your account</p>
+
+                    <h2>Sign up for ModDrive</h2>
+
+                    <p>Enter your information below.</p>
+                </div>
+
+                {% if form.non_field_errors %}
+                <div class="form-error-box">
+                    {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="{{ form.full_name.id_for_label }}">
+                        Full name
+                    </label>
+
+                    {{ form.full_name }}
+
+                    {% for error in form.full_name.errors %}
+                    <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">
+                        Username
+                    </label>
+
+                    {{ form.username }}
+
+                    {% if form.username.help_text %}
+                    <small>{{ form.username.help_text }}</small>
+                    {% endif %}
+
+                    {% for error in form.username.errors %}
+                    <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">
+                        Email address
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                    <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        Birthdate
+                    </label>
+
+                    <div class="birthdate-fields">
+                        {{ form.birthdate }}
+                    </div>
+
+                    <small>
+                        You must be at least 18 years old to register.
+                    </small>
+
+                    {% for error in form.birthdate.errors %}
+                    <p class="field-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="password-fields">
+                    <div class="form-group">
+                        <label for="{{ form.password1.id_for_label }}">
+                            Password
+                        </label>
+
+                        {{ form.password1 }}
+
+                        {% for error in form.password1.errors %}
+                        <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.password2.id_for_label }}">
+                            Confirm password
+                        </label>
+
+                        {{ form.password2 }}
+
+                        {% for error in form.password2.errors %}
+                        <p class="field-error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                {% if form.password1.help_text %}
+                <div class="password-requirements">
+                    {{ form.password1.help_text }}
+                </div>
+                {% endif %}
+
+                <button type="submit" class="button register-submit-button">
+                    Create Account
+                </button>
+
+                <p class="login-link">
+                    Already have an account?
+
+                    <a href="{% url 'accounts:login' %}">
+                        Log in
+                    </a>
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Favorites | ModDrive
+{% endblock %}
+
+{% block content %}
+<section class="favorites-page">
+    <div class="container">
+        <div class="favorites-heading">
+            <div>
+                <p class="page-label">Saved vehicles</p>
+                <h1>My Favorites</h1>
+                <p>Keep track of the vehicles you want to drive.</p>
+            </div>
+
+            <a href="{% url 'fleet:fleet_list' %}" class="button">
+                Explore More Vehicles
+            </a>
+        </div>
+
+        {% if favorites %}
+        <div class="favorites-grid">
+            {% for favorite in favorites %}
+            <article class="favorite-card">
+                <a class="favorite-card-image" href="{% url 'fleet:vehicle_detail' favorite.vehicle.id %}">
+                    {% if favorite.vehicle.image_url %}
+                    <img src="{{ favorite.vehicle.image_url }}" alt="{{ favorite.vehicle }}">
+                    {% else %}
+                    <div class="image-placeholder">
+                        No image available
+                    </div>
+                    {% endif %}
+                </a>
+
+                <div class="favorite-card-content">
+                    <div class="favorite-card-top">
+                        <span class="vehicle-type">
+                            {{ favorite.vehicle.get_vehicle_type_display }}
+                        </span>
+
+                        {% if favorite.vehicle.is_available %}
+                        <span class="available-status">
+                            Available
+                        </span>
+                        {% else %}
+                        <span class="unavailable-status">
+                            Unavailable
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <h2>
+                        <a href="{% url 'fleet:vehicle_detail' favorite.vehicle.id %}">
+                            {{ favorite.vehicle.model_year }}
+                            {{ favorite.vehicle.manufacturer }}
+                            {{ favorite.vehicle.name }}
+                        </a>
+                    </h2>
+
+                    <p class="favorite-vehicle-information">
+                        {{ favorite.vehicle.get_transmission_display }}
+                        transmission
+                    </p>
+
+                    <div class="favorite-card-price">
+                        <strong>
+                            ${{ favorite.vehicle.daily_price }}
+                        </strong>
+
+                        <span>/ day</span>
+                    </div>
+
+                    <div class="favorite-card-actions">
+                        <a href="{% url 'fleet:vehicle_detail' favorite.vehicle.id %}" class="button">
+                            View Vehicle
+                        </a>
+
+                        <form method="post" action="{% url 'fleet:toggle_favorite' favorite.vehicle.id %}">
+                            {% csrf_token %}
+
+                            <button type="submit" class="remove-favorite-button">
+                                Remove
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-favorites">
+            <div class="empty-favorites-icon" aria-hidden="true">
+                ☆
+            </div>
+
+            <h2>No favorite vehicles yet</h2>
+
+            <p>
+                Browse the fleet and save vehicles that you
+                would like to rent.
+            </p>
+
+            <a href="{% url 'fleet:fleet_list' %}" class="button">
+                Explore the Fleet
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

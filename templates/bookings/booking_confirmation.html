@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}
+Booking Submitted | ModDrive
+{% endblock %}
+
+{% block content %}
+<section class="confirmation-page">
+    <div class="confirmation-card">
+        <div class="confirmation-icon" aria-hidden="true">
+            ✓
+        </div>
+
+        <div class="confirmation-heading">
+            <p class="page-label">Request received</p>
+
+            <h1>Booking Submitted</h1>
+
+            <p>
+                Your booking request was successfully submitted.
+                Booking staff will review it shortly.
+            </p>
+        </div>
+
+        <div class="confirmation-status">
+            <span>Status</span>
+
+            <strong class="status-{{ booking.status }}">
+                {{ booking.get_status_display }}
+            </strong>
+        </div>
+
+        <div class="confirmation-details">
+            <div class="confirmation-detail">
+                <span>Booking number</span>
+                <strong>#{{ booking.id }}</strong>
+            </div>
+
+            <div class="confirmation-detail">
+                <span>Vehicle</span>
+
+                <strong>
+                    {{ booking.vehicle.model_year }}
+                    {{ booking.vehicle.manufacturer }}
+                    {{ booking.vehicle.name }}
+                </strong>
+            </div>
+
+            <div class="confirmation-detail">
+                <span>Start date</span>
+
+                <strong>
+                    {{ booking.start_date|date:"M d, Y" }}
+                </strong>
+            </div>
+
+            <div class="confirmation-detail">
+                <span>End date</span>
+
+                <strong>
+                    {{ booking.end_date|date:"M d, Y" }}
+                </strong>
+            </div>
+
+            <div class="confirmation-detail">
+                <span>Driving route</span>
+
+                <strong>
+                    {% if booking.route %}
+                    {{ booking.route.name }}
+                    {% else %}
+                    No route selected
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div class="confirmation-detail confirmation-total">
+                <span>Total price</span>
+                <strong>${{ booking.total_price }}</strong>
+            </div>
+        </div>
+
+        {% if booking.customer_notes %}
+        <div class="confirmation-notes">
+            <h2>Customer Notes</h2>
+            <p>{{ booking.customer_notes }}</p>
+        </div>
+        {% endif %}
+
+        <div class="confirmation-actions">
+            <a href="{% url 'bookings:my_bookings' %}" class="button">
+                View My Bookings
+            </a>
+
+            <a href="{% url 'fleet:fleet_list' %}" class="button secondary-button">
+                Continue Browsing
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
