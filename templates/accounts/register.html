@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width:450px; margin:60px auto; padding:30px; background:#1c1c1c; color:white; border-radius:12px;">
+
+    <h2 style="text-align:center;">Create Your Account</h2>
+    <p style="text-align:center;">Join ModDrive and start your driving experience.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div style="color:#ff6666;">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div style="margin-bottom:18px;">
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+
+                <div style="margin-top:8px;">
+                    {{ field }}
+                </div>
+
+                {% if field.help_text %}
+                    <small style="color:#bbbbbb;">
+                        {{ field.help_text }}
+                    </small>
+                {% endif %}
+
+                {% for error in field.errors %}
+                    <p style="color:#ff6666;">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <button type="submit"
+                style="width:100%; padding:12px; background:#ff6600; color:white; border:none; border-radius:6px; cursor:pointer;">
+            Create Account
+        </button>
+    </form>
+
+    <p style="text-align:center; margin-top:20px;">
+        Already have an account?
+        <a href="{% url 'accounts:login' %}" style="color:#ff6600;">
+            Login
+        </a>
+    </p>
+
+</div>
+{% endblock %}
