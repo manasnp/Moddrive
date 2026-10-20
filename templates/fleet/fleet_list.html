@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Fleet | ModDrive{% endblock %}
+
+{% block content %}
+
+<h1>Explore Our Fleet</h1>
+
+<p>Browse professionally modified vehicles available through ModDrive.</p>
+
+<div class="vehicle-grid">
+
+    {% for vehicle in vehicles %}
+
+        <div class="vehicle-card">
+
+            {% if vehicle.image_url %}
+                <img src="{{ vehicle.image_url }}" alt="{{ vehicle.name }}">
+            {% endif %}
+
+            <h2>
+                {{ vehicle.model_year }}
+                {{ vehicle.manufacturer }}
+                {{ vehicle.name }}
+            </h2>
+
+            <p>
+                <strong>Type:</strong>
+                {{ vehicle.get_vehicle_type_display }}
+            </p>
+
+            <p>
+                <strong>Transmission:</strong>
+                {{ vehicle.get_transmission_display }}
+            </p>
+
+            <p>
+                <strong>Daily Price:</strong>
+                ${{ vehicle.daily_price }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+
+                {% if vehicle.is_available %}
+                    Available
+                {% else %}
+                    Unavailable
+                {% endif %}
+            </p>
+
+        </div>
+
+    {% empty %}
+        <p>No vehicles are currently available.</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

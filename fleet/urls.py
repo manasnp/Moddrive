@@ -5,5 +5,5 @@ from . import views
 app_name = "fleet"
 
 urlpatterns = [
-    # Add fleet URLs here.
+    path("", views.vehicle_list, name="vehicle_list"),
 ]
