@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile | ModDrive{% endblock %}
+
+{% block content %}
+<section class="profile-page">
+
+    <h1>Edit Profile</h1>
+    <p>Update your personal information below.</p>
+
+    <div class="profile-card">
+        <h2>Personal Information</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="profile-save-button">
+                Save Changes
+            </button>
+
+            <a href="{% url 'accounts:profile' %}">
+                Cancel
+            </a>
+        </form>
+    </div>
+
+</section>
+{% endblock %}
