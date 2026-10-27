@@ -2352,3 +2352,121 @@ img {
         width: 100%;
     }
 }
+
+/* MODDRIVE PROFILE PAGE */
+
+.profile-page {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 30px 24px;
+}
+
+.profile-page h1 {
+    font-size: 38px;
+    color: #222;
+    margin-bottom: 12px;
+}
+
+.profile-page > p {
+    color: #666;
+    font-size: 17px;
+    margin-bottom: 30px;
+}
+
+.profile-card {
+    background: #ffffff;
+    padding: 30px;
+    margin-bottom: 25px;
+    border-radius: 14px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+}
+
+.profile-card h2 {
+    color: #222;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ed7800;
+    padding-left: 12px;
+}
+
+.profile-card p {
+    margin-bottom: 15px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.profile-card a {
+    display: inline-block;
+    background: #ed7800;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 5px 0;
+}
+
+.profile-card a:hover {
+    background: #c96200;
+}
+
+@media (max-width: 650px) {
+    .profile-page {
+        margin: 20px auto;
+        padding: 20px 15px;
+    }
+
+    .profile-page h1 {
+        font-size: 30px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+}
+
+/* EDIT PROFILE FORM */
+
+.profile-card form p {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.profile-card form label {
+    font-weight: 600;
+    color: #333;
+}
+
+.profile-card form input {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.profile-card form input:focus {
+    outline: none;
+    border-color: #ed7800;
+    box-shadow: 0 0 0 3px rgba(237, 120, 0, 0.15);
+}
+
+.profile-save-button {
+    background: #ed7800;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-save-button:hover {
+    background: #c96200;
+}

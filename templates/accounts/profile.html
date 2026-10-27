@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile | ModDrive{% endblock %}
+
+{% block content %}
+
+<section class="profile-page">
+
+    <h1>My Account</h1>
+    <p>Welcome back, {{ user.get_username }}!</p>
+
+    <div class="profile-card">
+        <h2>Personal Information</h2>
+
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+
+        <a href="{% url 'accounts:edit_profile' %}">
+    Edit Profile
+</a>
+
+    </div>
+
+    <div class="profile-card">
+        <h2>My Dashboard</h2>
+
+        <p>Manage your ModDrive experience.</p>
+
+        <a href="{% url 'bookings:my_bookings' %}">
+            View My Bookings
+        </a>
+
+        <p>
+            <a href="{% url 'fleet:favorite_list' %}">
+                My Favorite Cars
+            </a>
+        </p>
+    </div>
+
+</section>
+
+{% endblock %}
