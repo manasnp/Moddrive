@@ -1,14 +1,69 @@
+
 {% extends "base.html" %}
 
-{% block title %}My Profile | ModDrive{% endblock %}
+{% block title %}My Dashboard | ModDrive{% endblock %}
 
 {% block content %}
-
 <section class="profile-page">
 
-    <h1>My Account</h1>
-    <p>Welcome back, {{ user.get_username }}!</p>
+    <h1>My Dashboard</h1>
+    <p>Welcome back, {{ user.first_name|default:user.username }}!</p>
 
+    <!-- Dashboard Statistics -->
+    <div class="dashboard-stats">
+
+        <div class="profile-card">
+            <h2>Total Bookings</h2>
+            <p class="dashboard-number">{{ total_bookings }}</p>
+        </div>
+
+        <div class="profile-card">
+            <h2>Pending Bookings</h2>
+            <p class="dashboard-number">{{ pending_bookings }}</p>
+        </div>
+
+        <div class="profile-card">
+            <h2>Approved Bookings</h2>
+            <p class="dashboard-number">{{ approved_bookings }}</p>
+        </div>
+
+        <div class="profile-card">
+            <h2>Favorite Cars</h2>
+            <p class="dashboard-number">{{ favorite_count }}</p>
+        </div>
+
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="profile-card">
+        <h2>Recent Bookings</h2>
+
+        {% for booking in recent_bookings %}
+            <div class="dashboard-booking">
+                <h3>{{ booking.vehicle }}</h3>
+                <p>
+                    <strong>Dates:</strong>
+                    {{ booking.start_date }} - {{ booking.end_date }}
+                </p>
+                <p>
+                    <strong>Status:</strong>
+                    {{ booking.get_status_display }}
+                </p>
+                <p>
+                    <strong>Total:</strong>
+                    ${{ booking.total_price }}
+                </p>
+            </div>
+        {% empty %}
+            <p>You haven't made any bookings yet.</p>
+        {% endfor %}
+
+        <a href="{% url 'bookings:my_bookings' %}">
+            View All Bookings
+        </a>
+    </div>
+
+    <!-- Personal Information -->
     <div class="profile-card">
         <h2>Personal Information</h2>
 
@@ -18,27 +73,22 @@
         <p><strong>Last Name:</strong> {{ user.last_name }}</p>
 
         <a href="{% url 'accounts:edit_profile' %}">
-    Edit Profile
-</a>
-
+            Edit Profile
+        </a>
     </div>
 
+    <!-- Quick Actions -->
     <div class="profile-card">
-        <h2>My Dashboard</h2>
+        <h2>Quick Actions</h2>
 
-        <p>Manage your ModDrive experience.</p>
-
-        <a href="{% url 'bookings:my_bookings' %}">
-            View My Bookings
+        <a href="{% url 'fleet:fleet_list' %}">
+            Explore Cars
         </a>
 
-        <p>
-            <a href="{% url 'fleet:favorite_list' %}">
-                My Favorite Cars
-            </a>
-        </p>
+        <a href="{% url 'fleet:favorite_list' %}">
+            My Favorite Cars
+        </a>
     </div>
 
 </section>
-
 {% endblock %}

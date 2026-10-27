@@ -7,6 +7,9 @@ from django.views.decorators.http import require_POST
 
 from .forms import RegistrationForm, EditProfileForm
 
+from bookings.models import Booking
+from fleet.models import Favorite
+
 
 # Register a new user
 def register(request):
@@ -77,7 +80,21 @@ fleet_manager_required = user_passes_test(is_fleet_manager)
 # Profile page
 @login_required
 def profile(request):
-    return render(request, "accounts/profile.html")
+    bookings = Booking.objects.filter(
+        customer=request.user
+    ).select_related("vehicle")
+
+    context = {
+        "total_bookings": bookings.count(),
+        "pending_bookings": bookings.filter(status="pending").count(),
+        "approved_bookings": bookings.filter(status="approved").count(),
+        "favorite_count": Favorite.objects.filter(
+            user=request.user
+        ).count(),
+        "recent_bookings": bookings[:5],
+    }
+
+    return render(request, "accounts/profile.html", context)
 
 
 # Edit Profile page

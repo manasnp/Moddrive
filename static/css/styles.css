@@ -2470,3 +2470,62 @@ img {
 .profile-save-button:hover {
     background: #c96200;
 }
+
+/* MODDRIVE ACCOUNT DASHBOARD */
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-stats .profile-card {
+    margin-bottom: 0;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.dashboard-stats .profile-card h2 {
+    font-size: 17px;
+    border-left: none;
+    padding-left: 0;
+    margin-bottom: 15px;
+}
+
+.dashboard-number {
+    font-size: 42px;
+    font-weight: 700;
+    color: #ed7800 !important;
+    margin: 0 !important;
+}
+
+.dashboard-booking {
+    padding: 20px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.dashboard-booking h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.dashboard-booking p {
+    margin-bottom: 8px;
+}
+
+.dashboard-booking:last-of-type {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 500px) {
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+}
